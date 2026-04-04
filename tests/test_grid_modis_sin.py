@@ -35,5 +35,5 @@ def test_tile_grid_with_surround_no_file():
 
 
 def test_tile_grid_invalid_gcenter():
-    with pytest.raises((ValueError, AttributeError)):
-        TileGridModisSin(gcenter=123)
+    with pytest.raises(ValueError, match="gcenter must be a string"):
+        TileGridModisSin(gcenter=123, do_grid_surround=True)

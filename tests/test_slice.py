@@ -1,4 +1,3 @@
-import numpy as np
 import pytest
 from mtmhdf._utils import split_slice_2d
 
@@ -34,7 +33,8 @@ def test_full_slice():
 def test_beyond_grid():
     slices, shape = get_slices((slice(1100, 1300), slice(0, 100)))
     assert shape == (200, 100)
-    assert "bottom" in slices or "center" in slices
+    assert "center" in slices
+    assert "bottom" in slices
 
 
 def test_step_not_supported():

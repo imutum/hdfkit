@@ -30,6 +30,19 @@ def test_write_with_scale_factor(nc_path):
     assert y.mask[1, :].all()
 
 
+def test_read_native_mode(nc_path):
+    x = np.random.rand(10, 10).astype(np.float32)
+    with Dataset(nc_path, "w", format="NETCDF4") as fp:
+        HDF5.write(fp, x, "x", ("t", "p"), "uint16", scale_factor=0.0001)
+    reader = HDF5Reader(nc_path)
+    # native mode: netCDF4 handles scale/mask automatically
+    y_native = reader.read("x", mode="native")[:]
+    assert isinstance(y_native, np.ma.MaskedArray)
+    # manual mode: reader applies scale/mask manually
+    y_manual = reader.read("x", mode="manual", isScaleAndOffset=True)[:]
+    assert isinstance(y_manual, np.ma.MaskedArray)
+
+
 def test_write_dimension_mismatch(nc_path):
     x = np.random.rand(100, 100).astype(np.float32)
     with Dataset(nc_path, "w", format="NETCDF4") as fp:
