@@ -86,8 +86,6 @@ class HDF5(Dataset):
                 # 1. 获取目标整数类型的理论最大/最小值
                 info = np.iinfo(dt)
                 i_min, i_max = info.min, info.max
-                print(i_min, i_max)
-                              
                 # 3. 转换为物理值的范围
                 #    公式: Physical = Integer * scale + offset
                 lim1 = i_min * scale_factor + add_offset

@@ -33,7 +33,7 @@ class TemplateReader:
         raise NotImplementedError("Subclass must implement this method")
 
     def __getitem__(self, name:str):
-        return self.rawread(name)
+        return self.readraw(name)
 
     def readraw(self, name:str):
         raise NotImplementedError("Subclass must implement this method")
