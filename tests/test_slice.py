@@ -1,30 +1,42 @@
 import numpy as np
-import sys
-import os
-
-# 将 src 添加到 path 中以导入 mtmhdf
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'src')))
-
+import pytest
 from mtmhdf._utils import split_slice_2d
 
 
-class TestSlice:
-    def __init__(self, grid_size):
-        self.grid_size = grid_size
-
-    def __getitem__(self, item) -> np.ma.MaskedArray | np.ndarray:
-        print(f"Original slice: {item}")
-        if isinstance(item, tuple) and len(item) == 2:
-            sub_slices, target_shape = split_slice_2d(item, self.grid_size)
-            print(f"Target Shape: {target_shape}")
-            print("Split slices:")
-            for direction, info in sub_slices.items():
-                print(f"  {direction:12}: src={info['src']}, dst={info['dst']}")
-        return np.array([])
+GRID_SIZE = 1200
 
 
-if __name__ == "__main__":
-    grid_size = 1200
-    test = TestSlice(grid_size)
-    test[-5:1202, -5:1202]
-    test[:]
+def get_slices(item):
+    sub_slices, target_shape = split_slice_2d(item, GRID_SIZE)
+    return sub_slices, target_shape
+
+
+def test_normal_slice():
+    slices, shape = get_slices((slice(0, 100), slice(0, 100)))
+    assert shape == (100, 100)
+    assert "center" in slices
+
+
+def test_negative_start():
+    slices, shape = get_slices((slice(-5, 1202), slice(-5, 1202)))
+    assert shape == (1207, 1207)
+    assert "topleft" in slices
+    assert "center" in slices
+    assert "bottomright" in slices
+
+
+def test_full_slice():
+    slices, shape = get_slices((slice(None), slice(None)))
+    assert shape == (GRID_SIZE, GRID_SIZE)
+    assert "center" in slices
+
+
+def test_beyond_grid():
+    slices, shape = get_slices((slice(1100, 1300), slice(0, 100)))
+    assert shape == (200, 100)
+    assert "bottom" in slices or "center" in slices
+
+
+def test_step_not_supported():
+    with pytest.raises(NotImplementedError):
+        get_slices((slice(0, 100, 2), slice(0, 100)))

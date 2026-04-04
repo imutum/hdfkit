@@ -26,3 +26,8 @@ dynamic = ["version"]
 [project.optional-dependencies]
 
 [tool.setuptools_scm]
+
+[dependency-groups]
+dev = [
+    "pytest>=9.0.2",
+]
