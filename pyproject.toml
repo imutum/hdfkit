@@ -6,12 +6,11 @@ build-backend = "setuptools.build_meta"
 name = "mtmhdf"
 description = "imutum's packages for HDF"
 readme = "README.md"
-license = { file = "LICENSE" }
+license = "MIT"
 classifiers = [
     "Development Status :: 3 - Alpha",
     "Programming Language :: Python :: 3.11",
     "Intended Audience :: Developers",
-    "License :: OSI Approved :: MIT License",
     "Operating System :: MacOS",
     "Operating System :: POSIX :: Linux",
     "Operating System :: Microsoft :: Windows",

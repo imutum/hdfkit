@@ -27,3 +27,4 @@ if __name__ == "__main__":
     grid_size = 1200
     test = TestSlice(grid_size)
     test[-5:1202, -5:1202]
+    test[:]
