@@ -14,17 +14,21 @@
 
 本项目依赖 Python 3.11+。
 
-### 源码安装
+### 从 PyPI 安装
+
+```bash
+pip install mtmhdf
+# 或使用 uv
+uv add mtmhdf
+```
+
+### 从源码安装
 
 ```bash
 pip install .
+# 或使用 uv
+uv sync
 ```
-
-### 依赖库
-
-*   pyhdf >= 0.10.5
-*   netCDF4 >= 1.6.5
-*   numpy >= 1.23.0
 
 ## 快速开始
 
