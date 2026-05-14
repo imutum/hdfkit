@@ -1,8 +1,8 @@
 import numpy as np
 import pytest
 from netCDF4 import Dataset
-from mtmhdf.reader import HDF5Reader
-from mtmhdf._hdf5 import HDF5
+from hdfkit.reader import HDF5Reader
+from hdfkit._hdf5 import HDF5
 
 
 @pytest.fixture

@@ -1,5 +1,5 @@
 import pytest
-from mtmhdf.grid_modis_sin import TileGridModisSin, get_grid_hv_surround
+from hdfkit.grid_modis_sin import TileGridModisSin, get_grid_hv_surround
 
 
 def test_surround_basic():
