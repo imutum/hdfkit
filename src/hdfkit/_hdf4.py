@@ -47,6 +47,11 @@ class HDF4:
             "dataset_type": HDF4.DATATYPES[_info_list[3]],
         }
         _info_dict.update(attrs)
+        # pyhdf 把 _FillValue 走 SDsetfillvalue 通道，不出现在 attributes()
+        try:
+            _info_dict["_FillValue"] = dp.getfillvalue()
+        except Exception:
+            pass
         return _info_dict
 
 

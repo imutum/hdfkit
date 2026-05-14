@@ -37,7 +37,7 @@ def hdf4_file(tmp_path):
     ds[:] = raw_ndvi
     ds.scale_factor = SCALE
     ds.add_offset = OFFSET
-    setattr(ds, "_FillValue", FILL)
+    ds.setfillvalue(FILL)
     ds.endaccess()
 
     ds = sd.create("qa", SDC.UINT8, raw_qa.shape)
