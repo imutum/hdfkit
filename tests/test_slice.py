@@ -1,5 +1,5 @@
 import pytest
-from mtmhdf._utils import split_slice_2d
+from hdfkit._utils import split_slice_2d
 
 
 GRID_SIZE = 1200

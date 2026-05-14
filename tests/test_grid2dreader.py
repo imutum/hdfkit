@@ -1,7 +1,7 @@
 import numpy as np
 import pytest
 from netCDF4 import Dataset
-from mtmhdf.grid2dreader import Grid2DReader
+from hdfkit.grid2dreader import Grid2DReader
 
 
 @pytest.fixture

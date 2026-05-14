@@ -1,5 +1,5 @@
 import numpy as np
-from mtmhdf._utils import int2binarystring, bitoffset
+from hdfkit._utils import int2binarystring, bitoffset
 
 
 def test_int2binarystring():
