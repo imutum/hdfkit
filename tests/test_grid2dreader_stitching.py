@@ -98,3 +98,21 @@ def test_missing_neighbor_tolerated(tmp_path):
     # missing right tile → those positions stay masked
     assert isinstance(arr, np.ma.MaskedArray)
     assert arr.mask[:, 5:].all()
+
+
+def test_uppercase_filename_stitching(tmp_path):
+    """Filenames with HXXVYY (uppercase) must resolve neighbors via the
+    uppercase branch of replace_hv_surround."""
+    upper_hv = {d: hv.upper() for d, hv in DIRECTION_HV.items()}
+    for direction, hv in upper_hv.items():
+        _make_tile(tmp_path / f"MOD.{hv}.nc", TILE_VALUE[direction])
+
+    center_path = str(tmp_path / f"MOD.{upper_hv['center']}.nc")
+    reader = Grid2DReader(center_path, grid_size=GRID)
+    arr = reader.read("data")[5:15, 5:15]
+
+    assert arr.shape == (10, 10)
+    np.testing.assert_array_equal(arr[:5, :5], TILE_VALUE["center"])
+    np.testing.assert_array_equal(arr[:5, 5:], TILE_VALUE["right"])
+    np.testing.assert_array_equal(arr[5:, :5], TILE_VALUE["bottom"])
+    np.testing.assert_array_equal(arr[5:, 5:], TILE_VALUE["bottomright"])

@@ -48,3 +48,22 @@ def test_write_dimension_mismatch(nc_path):
     with Dataset(nc_path, "w", format="NETCDF4") as fp:
         with pytest.raises(ValueError, match="dimensions"):
             HDF5.write(fp, x, "x", ("t",))
+
+
+def test_invalid_mode_at_construction(nc_path):
+    x = np.random.rand(10, 10).astype(np.float32)
+    with Dataset(nc_path, "w", format="NETCDF4") as fp:
+        HDF5.write(fp, x, "x", ("t", "p"))
+    with pytest.raises(ValueError, match="Invalid mode"):
+        HDF5Reader(nc_path).read("x", mode="bogus")
+
+
+def test_invalid_mode_at_getitem(nc_path):
+    """If mode is mutated after construction, __getitem__ guards against it."""
+    x = np.random.rand(10, 10).astype(np.float32)
+    with Dataset(nc_path, "w", format="NETCDF4") as fp:
+        HDF5.write(fp, x, "x", ("t", "p"))
+    data = HDF5Reader(nc_path).read("x", mode="manual")
+    data.mode = "bogus"
+    with pytest.raises(ValueError, match="Invalid mode"):
+        _ = data[:]
