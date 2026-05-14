@@ -1,8 +1,8 @@
 from pathlib import Path
 import re
-from mtmhdf.reader import HDF4Reader, HDF5Reader, TemplateReader
-from mtmhdf.grid_modis_sin import TileGridModisSin
-from mtmhdf._utils import split_slice_2d
+from hdfkit.reader import HDF4Reader, HDF5Reader, TemplateReader
+from hdfkit.grid_modis_sin import TileGridModisSin
+from hdfkit._utils import split_slice_2d
 
 import numpy as np
 
