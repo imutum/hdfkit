@@ -1,7 +1,7 @@
 import numpy as np
 import pytest
 from netCDF4 import Dataset
-from hdfkit.grid2dreader import Grid2DReader
+from hdfkit.grid2dreader import Grid2DReader, inferrence_format, inferrence_hv
 
 
 @pytest.fixture
@@ -40,3 +40,13 @@ def test_read_negative_slice(nc_file):
     dp = reader.read("/GeometricCorrection/DataSet_1000_5")
     data = dp[-2:12, -2:12]
     assert data.shape == (14, 14)
+
+
+def test_inferrence_format_unsupported():
+    with pytest.raises(ValueError, match="Unsupported format"):
+        inferrence_format("file.txt")
+
+
+def test_inferrence_hv_no_match():
+    with pytest.raises(ValueError, match="Unsupported filename"):
+        inferrence_hv("MOD09GA_no_tile_marker.hdf")
