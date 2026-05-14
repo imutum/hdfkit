@@ -3,8 +3,8 @@ requires = ["setuptools>=40.8.0", "wheel", "setuptools_scm[toml]>=6.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "mtmhdf"
-description = "imutum's packages for HDF"
+name = "hdfkit"
+description = "Unified HDF4/HDF5 reader with grid tile stitching"
 readme = "README.md"
 license = "MIT"
 classifiers = [
