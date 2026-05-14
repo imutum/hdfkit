@@ -1,4 +1,4 @@
-name: Publish Python 🐍 distributions 📦 to PyPI
+name: Publish hdfkit to pypi.mutum.top
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
 
 jobs:
   build-n-publish:
-    name: Build and publish Python 🐍 distributions 📦 to PyPI
+    name: Build and publish hdfkit to pypi.mutum.top
     runs-on: ubuntu-24.04
     steps:
     - uses: actions/checkout@v4
@@ -21,9 +21,11 @@ jobs:
       run: uv sync
     - name: Run tests
       run: uv run pytest
-    - name: Build a binary wheel and a source tarball
+    - name: Build wheel
       run: uv build --wheel --out-dir dist/
-    - name: Publish distribution 📦 to PyPI
+    - name: Publish to pypi.mutum.top
       uses: pypa/gh-action-pypi-publish@release/v1
       with:
-        password: ${{ secrets.PYPI_API_TOKEN }}
+        repository-url: https://pypi.mutum.top:16181/
+        user: ${{ secrets.MUTUM_PYPI_USER }}
+        password: ${{ secrets.MUTUM_PYPI_PASSWORD }}
