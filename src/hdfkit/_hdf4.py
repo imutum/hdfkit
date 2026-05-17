@@ -68,11 +68,9 @@ class HDF4Data(TemplateData):
             "attr_fill_value": "_FillValue",
             "attr_decimal": 8,
         }
-        if manual_options is None:
-            self.manual_options = default_manual_options
-        else:
-            self.manual_options = manual_options.copy()
-            self.manual_options.update(default_manual_options)
+        self.manual_options = default_manual_options.copy()
+        if manual_options is not None:
+            self.manual_options.update(manual_options)
 
     def infos(self):
         return HDF4.dpinfo(self.dp)
@@ -116,7 +114,7 @@ class HDF4Reader(TemplateReader):
 
     def read(self, name: str, isScaleAndOffset: bool = True, isMasked: bool = True, **kwargs):
         dp = HDF4.read(self.fp, name)
-        DataClass = HDF4Reader.LinkedDataClass
+        DataClass = self.LinkedDataClass
         return DataClass(dp, mode="manual", isScaleAndOffset=isScaleAndOffset, isMasked=isMasked, **kwargs)
 
     def keys(self) -> list[str]:
