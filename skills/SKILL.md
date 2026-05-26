@@ -5,7 +5,13 @@ description: Write code using the hdfkit library for reading/writing HDF4, HDF5,
 
 # hdfkit
 
-HDF4/5 统一读写库，支持 MODIS 正弦投影 tile 自动拼接。源码位于 `D:\project\hdfkit`。
+HDF4/5 统一读写库，支持 MODIS 正弦投影 tile 自动拼接。
+
+## 安装 / 更新
+
+```bash
+uv pip install --upgrade hdfkit --index-url https://pypi.mutum.top:16181/simple/
+```
 
 ## Quick start
 
@@ -51,12 +57,6 @@ class CustomData(HDF4Data):
 
 class CustomReader(HDF4Reader):
     LinkedDataClass = CustomData
-```
-
-## Installation
-
-```bash
-uv pip install hdfkit --index-url https://pypi.mutum.top:16181/simple/
 ```
 
 ## Detailed API
