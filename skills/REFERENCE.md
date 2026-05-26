@@ -74,6 +74,34 @@ data = reader.read("name", manual_options={
 })
 ```
 
+## Custom Data Class (LinkedDataClass)
+
+`Reader.read()` 内部通过 `self.LinkedDataClass` 实例化 Data 对象。子类可覆写 `LinkedDataClass` 指向自定义 Data 类，覆写 `manual_transform()` 实现非标准标定：
+
+```python
+from hdfkit import HDF4Data, HDF4Reader
+from hdfkit._utils import mask
+import numpy as np
+
+class ReflectanceData(HDF4Data):
+    """标定公式: scale * (data - offset)，非默认 data * scale + offset"""
+    def manual_transform(self, data):
+        infos = self.infos()
+        s = np.asarray(infos.get("reflectance_scales", 1))
+        o = np.asarray(infos.get("reflectance_offsets", 0))
+        if self.isMasked:
+            data = mask(data, infos.get("_FillValue"))
+        if self.isScaleAndOffset:
+            data = s * (data - o)
+        return data
+
+class ReflectanceReader(HDF4Reader):
+    LinkedDataClass = ReflectanceData
+
+reader = ReflectanceReader("MOD021KM.A2023001.0500.061.hdf")
+refl = reader.read("EV_1KM_RefSB")[:]  # 使用自定义标定
+```
+
 ## Grid2DReader — MODIS Tile Stitching
 
 Reads MODIS sinusoidal tiles with automatic neighboring-tile stitching for cross-boundary slices.
